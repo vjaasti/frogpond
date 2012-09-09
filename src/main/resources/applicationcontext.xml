@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="freemarkerGenerator" class="org.frogpond.generator.ModelBasedGenerator">
+        <property name="metadataStore" ref="metadataStore" />
+        <property name="configuration">
+            <bean class="freemarker.template.Configuration">
+                <property name="directoryForTemplateLoading" value="classpath:templates/"/>
+                <property name="objectWrapper">
+                    <bean class="freemarker.template.DefaultObjectWrapper"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="metadataStore" factory-bean="metadataStoreFactory" factory-method="create" />
+    <bean id="metadataStoreFactory" class="org.frogpond.metadata.store.DefaultMetadataStoreFactory">
+        <property name="basePackage" value="#{ systemProperties['frogpond.package'] }" />
+        <property name="metadataExtractor">
+            <bean id="reflectiveMetadataExtractor" class="org.frogpond.metadata.extractor.ReflectiveMetadataExtractor"/>
+        </property>
+    </bean>
+</beans>

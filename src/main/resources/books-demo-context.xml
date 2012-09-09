@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="processorSettings" class="org.frogpond.generator.ProcessorSettingsFactory">
+        <property name="basePackage" value="com.appmine.poc.model"/>
+        <property name="generateIndexerSchema" value="true"/>
+        <property name="generateLilySchema" value="true"/>
+        <property name="generateSolrSchema" value="true"/>
+        <property name="defaultNamespace">
+            <bean class="com.appmine.poc.lily.processor.model.Namespace">
+                <property name="prefix" value="m"/>
+                <property name="name" value="com.appmine.poc.model"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="lilyAnnotationProcessor" class="org.frogpond.generator.LilyAnnotationProcessor">
+        <property name="generator" ref="freemarkerGenerator"/>
+        <property name="settings" ref="processorSettings"/>
+    </bean>
+
+    <bean id="freemarkerGenerator" class="org.frogpond.generator.FreemarkerGenerator">
+        <property name="configuration" ref="freemarker"/>
+        <property name="outputDirectory" value="/tmp/"/>
+    </bean>
+
+    <bean id="freemarker" class="freemarker.template.Configuration">
+        <property name="directoryForTemplateLoading" value="classpath:templates/"/>
+        <property name="objectWrapper">
+            <bean class="freemarker.template.DefaultObjectWrapper"/>
+        </property>
+    </bean>
+
+
+    <bean id="metadataStoreFactory" class="org.frogpond.metadata.store.DefaultMetadataStoreFactory">
+        <property name="basePackage" value=""/>
+        <property name="metadataExtractorr" ref="reflectiveMetadataProvider"/>
+    </bean>
+
+    <bean id="reflectiveMetadataProvider" class="org.frogpond.metadata.extractor.ReflectiveMetadataExtractor"/>
+
+</beans>
