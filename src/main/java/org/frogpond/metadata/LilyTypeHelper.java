@@ -40,7 +40,7 @@ public class LilyTypeHelper {
         _primitiveTypes.put("short", "INTEGER");
         _primitiveTypes.put("java.lang.Double", "DOUBLE");
         _primitiveTypes.put("double", "DOUBLE");
-        _primitiveTypes.put("float", "DOUBLE");
+        _primitiveTypes.put("float", "FLOAT");
         _primitiveTypes.put("java.math.BigDecimal", "DECIMAL");
         _primitiveTypes.put("bigdecimal", "DECIMAL");
         _primitiveTypes.put("java.lang.Boolean", "BOOLEAN");
